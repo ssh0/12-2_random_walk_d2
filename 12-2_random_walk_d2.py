@@ -39,12 +39,12 @@ def random_walk_d2(l=1, x0=0, y0=0):
 def calc():
     """ Caluculate the average and the variance of x(N) and y(N)
     """
-    x_ave = np.sum(x, axis=0, dtype=np.float32) / nwalkers * 1.
-    y_ave = np.sum(y, axis=0, dtype=np.float32) / nwalkers * 1.
-    x_2_ave = np.sum(x ** 2, axis=0, dtype=np.float32) / nwalkers * 1.
-    y_2_ave = np.sum(y ** 2, axis=0, dtype=np.float32) / nwalkers * 1.
-    variance_x = x_2_ave - x_ave ** 2
-    variance_y = y_2_ave - y_ave ** 2
+    x_ave = np.average(x, axis=0)
+    y_ave = np.average(y, axis=0)
+    x_2_ave = np.average(x * x, axis=0)
+    y_2_ave = np.average(y * y, axis=0)
+    variance_x = x_2_ave - x_ave * x_ave
+    variance_y = y_2_ave - y_ave * y_ave
     R_2 = x_2_ave + y_2_ave - x_ave ** 2 - y_ave ** 2
 
     return [x_ave, y_ave, variance_x, variance_y, R_2]
@@ -67,7 +67,7 @@ def draw_figure():
     for n in range(nwalkers):
         l, = ax.plot([], [], 'r-')
         l.set_data(x[n], y[n])
-    plt.show()
+    plt.show().float32
 
 
 def plot_graph(x_data, y_data, x_labels, y_labels):
